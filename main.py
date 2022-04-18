@@ -620,6 +620,7 @@ betta_2e = M.degrees(M.asin(F_2/(e_opt*M.pi*d*l_2)))
 print(f'betta_2e = {betta_2e:.4f} град')
 
 point_1w = IAPWS97(h = point_1.h+w_1**2/2*1e-3, s = point_1.s)
+fig3 = plt.figure()
 def plot_hs_stage_t(x_lim,y_lim):
     plot_hs_nozzle_t(x_lim,y_lim)
     plt.plot([point_0.s,point_1.s],[point_0.h,point_1.h],'bo-')
@@ -628,7 +629,7 @@ def plot_hs_stage_t(x_lim,y_lim):
     iso_bar(point_2t,-0.02,0.02,0.001,'y')
     iso_bar(point_1w,-0.005,0.005,0.001,'c')
 plot_hs_stage_t([6.19,6.26],[3230,3380])
-plt.show()
+st.pyplot(fig3)
 
 
 if alpha_1 <= 10:
