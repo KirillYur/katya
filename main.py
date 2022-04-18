@@ -601,9 +601,9 @@ print(f'betta_1 = {betta_1:.2f} град')
 delta_H_s = c_1t**2/2*(1-phi_s**2)
 h_1 = h_1t + delta_H_s*1e-3
 point_1 = IAPWS97(P=point_1t.P, h=h_1)
-h_2t = h_1 - H_0_r
+h_2t = h_1 - H_0r
 point_2t = IAPWS97(h=h_2t, s=point_1.s)
-w_2t = (2000*H_0_r + w_1**2)**0.5
+w_2t = (2000*H_0r + w_1**2)**0.5
 l_2 = l_1 + delta
 mu_2 = 0.965 - 0.01*(b_2/l_2)
 M_2t = w_2t/point_2t.w
