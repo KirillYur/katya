@@ -595,7 +595,7 @@ point_2 = IAPWS97(P=point_2t.P, h=h_2)
 Delta_Hvs = c_2 ** 2 / 2
 h_3 = h_2 + Delta_Hvs * 1e-3
 point_3 = IAPWS97(P=point_2t.P, h=h_3)
-
+phi_s = 0.97509
 betta_1 = M.degrees(M.atan(M.sin(M.radians(alpha_1))/(M.cos(M.radians(alpha_1))-u/c_1)))
 print(f'betta_1 = {betta_1:.2f} град')
 delta_H_s = c_1t**2/2*(1-phi_s**2)
