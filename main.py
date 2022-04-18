@@ -604,7 +604,7 @@ point_1 = IAPWS97(P=point_1t.P, h=h_1)
 h_2t = h_1 - H_0r
 point_2t = IAPWS97(h=h_2t, s=point_1.s)
 w_2t = (2000*H_0r + w_1**2)**0.5
-l_2 = l_1 + delta
+l_2 = l_1 + Delta
 mu_2 = 0.965 - 0.01*(b_2/l_2)
 M_2t = w_2t/point_2t.w
 F_2 = (G_0*point_2t.v)/(mu_2*w_2t)
