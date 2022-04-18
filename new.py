@@ -1,5 +1,5 @@
 import streamlit as st
-from iapws import IAPWS97
+from iapws import IAPWS97 as WSP
 import numpy as np
 import pandas as pd
 import math as M
