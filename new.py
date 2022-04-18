@@ -5,7 +5,7 @@ import pandas as pd
 import matplotlib as plt
 import math as M
 import matplotlib.pyplot as plt
-from sympy import *
+
 
 st.write('# Курсовая работа по курсу "Паровые и газовые турбины"')
 st.write('# Выполнила: Парнова Екатерина')
