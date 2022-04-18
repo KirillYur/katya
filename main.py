@@ -595,35 +595,33 @@ point_2 = IAPWS97(P=point_2t.P, h=h_2)
 Delta_Hvs = c_2 ** 2 / 2
 h_3 = h_2 + Delta_Hvs * 1e-3
 point_3 = IAPWS97(P=point_2t.P, h=h_3)
-def plot_hs_nozzle_t(x_lim, y_lim):
-    plt.plot([point_0.s, point_1t.s], [point_0.h, point_1t.h], 'ro-')
-    iso_bar(point_0, -0.02, 0.02, 0.001, 'c')
-    iso_bar(point_1t, -0.02, 0.02, 0.001, 'y')
-    plt.xlim(x_lim)
-    plt.ylim(y_lim)
-plot_hs_nozzle_t([0, 6.5], [3000, 3600])
-plt.ylabel('H кДж/кг')
-plt.xlabel('S кДж/кг*К')
 
-fig3 = plt.figure()
-def plot_hs_stage_t(x_lim, y_lim):
-    plot_hs_nozzle_t(x_lim, y_lim)
-    plt.plot([point_0.s, point_1.s], [point_0.h, point_1.h], 'bo-')
-    plt.plot([point_1.s, point_2t.s], [point_1.h, point_2t.h], 'ro-')
+betta_1 = M.degrees(M.atan(M.sin(M.radians(alpha_1))/(M.cos(M.radians(alpha_1))-u/c_1)))
+print(f'betta_1 = {betta_1:.2f} град')
+delta_H_s = c_1t**2/2*(1-phi_s**2)
+h_1 = h_1t + delta_H_s*1e-3
+point_1 = WSP(P=point_1t.P, h=h_1)
+h_2t = h_1 - H_0_r
+point_2t = WSP(h=h_2t, s=point_1.s)
+w_2t = (2000*H_0_r + w_1**2)**0.5
+l_2 = l_1 + delta
+mu_2 = 0.965 - 0.01*(b_2/l_2)
+M_2t = w_2t/point_2t.w
+F_2 = (G_0*point_2t.v)/(mu_2*w_2t)
+betta_2e = M.degrees(M.asin(F_2/(e_opt*M.pi*d*l_2)))
+print(f'betta_2e = {betta_2e:.4f} град')
 
-    plt.plot([point_1.s, point_2.s], [point_1.h, point_2.h], 'bo-')
-    plt.plot([point_2.s, point_3.s], [point_2.h, point_3.h], 'bo-')
-    plt.plot([point_1.s, point_1.s], [point_1w.h, point_1.h], 'ro-')
-    iso_bar(point_2t, -0.02, 0.02, 0.001, 'y')
-    iso_bar(point_1w, -0.005, 0.005, 0.001, 'c')
+point_1w = WSP(h = point_1.h+w_1**2/2*1e-3, s = point_1.s)
+def plot_hs_stage_t(x_lim,y_lim):
+    plot_hs_nozzle_t(x_lim,y_lim)
+    plt.plot([point_0.s,point_1.s],[point_0.h,point_1.h],'bo-')
+    plt.plot([point_1.s,point_2t.s],[point_1.h,point_2t.h], 'ro-')
+    plt.plot([point_1.s,point_1.s],[point_1w.h, point_1.h],'ro-')
+    iso_bar(point_2t,-0.02,0.02,0.001,'y')
+    iso_bar(point_1w,-0.005,0.005,0.001,'c')
+plot_hs_stage_t([6.19,6.26],[3230,3380])
+plt.show()
 
-plt.ylabel('H кДж/кг')
-plt.xlabel('S кДж/кг*К')
-plt.title("H-S Диаграмма")
-plt.grid(True)
-plot_hs_stage_t([0, 6.36], [3000, 3500])
-
-st.pyplot(fig3)
 
 if alpha_1 <= 10:
     NozzleBlade = 'C-90-09A'
