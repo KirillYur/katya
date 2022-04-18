@@ -600,9 +600,9 @@ betta_1 = M.degrees(M.atan(M.sin(M.radians(alpha_1))/(M.cos(M.radians(alpha_1))-
 print(f'betta_1 = {betta_1:.2f} град')
 delta_H_s = c_1t**2/2*(1-phi_s**2)
 h_1 = h_1t + delta_H_s*1e-3
-point_1 = WSP(P=point_1t.P, h=h_1)
+point_1 = IAPWS97(P=point_1t.P, h=h_1)
 h_2t = h_1 - H_0_r
-point_2t = WSP(h=h_2t, s=point_1.s)
+point_2t = IAPWS97(h=h_2t, s=point_1.s)
 w_2t = (2000*H_0_r + w_1**2)**0.5
 l_2 = l_1 + delta
 mu_2 = 0.965 - 0.01*(b_2/l_2)
@@ -611,7 +611,7 @@ F_2 = (G_0*point_2t.v)/(mu_2*w_2t)
 betta_2e = M.degrees(M.asin(F_2/(e_opt*M.pi*d*l_2)))
 print(f'betta_2e = {betta_2e:.4f} град')
 
-point_1w = WSP(h = point_1.h+w_1**2/2*1e-3, s = point_1.s)
+point_1w = IAPWS97(h = point_1.h+w_1**2/2*1e-3, s = point_1.s)
 def plot_hs_stage_t(x_lim,y_lim):
     plot_hs_nozzle_t(x_lim,y_lim)
     plt.plot([point_0.s,point_1.s],[point_0.h,point_1.h],'bo-')
