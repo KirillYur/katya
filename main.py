@@ -573,14 +573,6 @@ f = pd.DataFrame({
     "U_cf" : (ucf)})
 f
 
-def plot_hs_nozzle_t(x_lim, y_lim):
-    plt.plot([point_0.s, point_1t.s],[point_0.h, point_1t.h],'ro-')
-    iso_bar(point_0,-0.02,0.02,0.001,'c')
-    iso_bar(point_1t,-0.02,0.02,0.001,'y')
-    plt.xlim(x_lim)
-    plt.ylim(y_lim)
-
-plot_hs_nozzle_t([6.1,6.35],[3200,3400])
 H_0 = 90 #при этом значении кпд максимальный
 u = M.pi*d*n
 point_0 = IAPWS97(P = p_0, T = T_0)
@@ -603,34 +595,35 @@ point_2 = IAPWS97(P=point_2t.P, h=h_2)
 Delta_Hvs = c_2 ** 2 / 2
 h_3 = h_2 + Delta_Hvs * 1e-3
 point_3 = IAPWS97(P=point_2t.P, h=h_3)
-phi_s = 0.97509
-betta_1 = M.degrees(M.atan(M.sin(M.radians(alpha_1))/(M.cos(M.radians(alpha_1))-u/c_1)))
-print(f'betta_1 = {betta_1:.2f} град')
-delta_H_s = c_1t**2/2*(1-phi_s**2)
-h_1 = h_1t + delta_H_s*1e-3
-point_1 = IAPWS97(P=point_1t.P, h=h_1)
-h_2t = h_1 - H_0r
-point_2t = IAPWS97(h=h_2t, s=point_1.s)
-w_2t = (2000*H_0r + w_1**2)**0.5
-l_2 = l_1 + Delta
-mu_2 = 0.965 - 0.01*(b_2/l_2)
-M_2t = w_2t/point_2t.w
-F_2 = (G_0*point_2t.v)/(mu_2*w_2t)
-betta_2e = M.degrees(M.asin(F_2/(e_opt*M.pi*d*l_2)))
-print(f'betta_2e = {betta_2e:.4f} град')
+def plot_hs_nozzle_t(x_lim, y_lim):
+    plt.plot([point_0.s, point_1t.s], [point_0.h, point_1t.h], 'ro-')
+    iso_bar(point_0, -0.02, 0.02, 0.001, 'c')
+    iso_bar(point_1t, -0.02, 0.02, 0.001, 'y')
+    plt.xlim(x_lim)
+    plt.ylim(y_lim)
+plot_hs_nozzle_t([0, 6.5], [3000, 3600])
+plt.ylabel('H кДж/кг')
+plt.xlabel('S кДж/кг*К')
 
-point_1w = IAPWS97(h = point_1.h+w_1**2/2*1e-3, s = point_1.s)
 fig3 = plt.figure()
-def plot_hs_stage_t(x_lim,y_lim):
-    plot_hs_nozzle_t(x_lim,y_lim)
-    plt.plot([point_0.s,point_1.s],[point_0.h,point_1.h],'bo-')
-    plt.plot([point_1.s,point_2t.s],[point_1.h,point_2t.h], 'ro-')
-    plt.plot([point_1.s,point_1.s],[point_1w.h, point_1.h],'ro-')
-    iso_bar(point_2t,-0.02,0.02,0.001,'y')
-    iso_bar(point_1w,-0.005,0.005,0.001,'c')
-plot_hs_stage_t([6.19,6.26],[3230,3380])
-st.pyplot(fig3)
+def plot_hs_stage_t(x_lim, y_lim):
+    plot_hs_nozzle_t(x_lim, y_lim)
+    plt.plot([point_0.s, point_1.s], [point_0.h, point_1.h], 'bo-')
+    plt.plot([point_1.s, point_2t.s], [point_1.h, point_2t.h], 'ro-')
 
+    plt.plot([point_1.s, point_2.s], [point_1.h, point_2.h], 'bo-')
+    plt.plot([point_2.s, point_3.s], [point_2.h, point_3.h], 'bo-')
+    plt.plot([point_1.s, point_1.s], [point_1w.h, point_1.h], 'ro-')
+    iso_bar(point_2t, -0.02, 0.02, 0.001, 'y')
+    iso_bar(point_1w, -0.005, 0.005, 0.001, 'c')
+
+plt.ylabel('H кДж/кг')
+plt.xlabel('S кДж/кг*К')
+plt.title("H-S Диаграмма")
+plt.grid(True)
+plot_hs_stage_t([point_0.s - 0.005, point_vs.s + 0.005], [point_2t.h - 10, point_0.h + 10])
+
+st.pyplot(fig3)
 
 if alpha_1 <= 10:
     NozzleBlade = 'C-90-09A'
@@ -906,26 +899,25 @@ st.subheader("""Внутреняя мощность ступени
 
 # Задание 3
 
-
 st.write("# Задание 3")
 
 st.write(" *Исходные данные:* ")
+print(p_1t, h_0)
+drs = 1.08
+P0 = 18.27
+h0 = 3270.34
+G0 = 631.73
+etaoi = 0.851
+Z = 9
+p_pp = 3.74
+Pz = p_pp + 0.08*p_pp
 
-drs = 1.1
-P0 = 28
-h0 = 3370.64-70.147
-G0 = 443.94
-etaoi = 0.9
-Z = 7
-Pz = 5.5
-
-
-deltaD = 0.26  # m
+deltaD = 0.24  # m
 n = 50  # Гц
 rho_s = 0.05
-alfa = 14  # град
-fi = 0.96
-mu1 = 0.97
+alfa = 12  # град
+fi = 0.9751
+mu1 = 0.9620
 delta = 0.003
 tetta = 20
 
@@ -939,7 +931,6 @@ st.write(""" G0 = """ + str(G0) + """ кг/с """)
 st.write(""" n = """ + str(n) + """ Гц """)
 st.write(""" eta_oi = """ + str(etaoi) + """ """)
 st.write(""" Pz = """ + str(Pz) + """ МПа """)
-
 
 
 D1 = drs - deltaD
